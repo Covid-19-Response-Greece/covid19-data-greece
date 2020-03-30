@@ -3,7 +3,7 @@
 import pandas as pd
 import json
 
-data_path = '../data/all_countries/JohnsHopkinsCSSE/data/'
+data_path = '../data/all_countries/JohnsHopkinsCSSE/'
 
 def clean_data():
     print('Cleaning the data ...')
