@@ -18,3 +18,4 @@ This project is performed by volunteers of [COVID-19 Response Greece](https://ww
   
 * Wikipedia: https://el.wikipedia.org/wiki/Πανδημία_του_κορονοϊού_στην_Ελλάδα_το_2020
 
+  ( [+ suggest a data source!](mailto:alex.delitzas@gmail.com) )
