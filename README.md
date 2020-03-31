@@ -14,7 +14,7 @@ This project is performed by volunteers of [COVID-19 Response Greece](https://ww
 * Johns Hopkins CSSE: https://systems.jhu.edu/research/public-health/ncov
   * Data repository: https://github.com/CSSEGISandData/COVID-19
 
-* National Public Health Organization of Greece: https://eody.gov.gr/
+* National Public Health Organization (NPHO) of Greece: https://eody.gov.gr/
   
 * Wikipedia: https://el.wikipedia.org/wiki/Πανδημία_του_κορονοϊού_στην_Ελλάδα_το_2020
 
