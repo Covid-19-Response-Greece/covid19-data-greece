@@ -23,8 +23,11 @@ This project is performed by volunteers of [COVID-19 Response Greece](https://ww
 ## Folder Structure 
 
 ```bash
+.
 ├── data
 │   ├── greece             # data for Greece
 │   └── all_countries      # data for all countries worldwide (for comparison purposes)
-└── data-processing        # scripts for data processing and cleaning
+├── data-processing        # scripts for data processing and cleaning
+├── analysis               # scripts and notebooks for data analysis
+└── visualizations         # visualization outputs
 ```
