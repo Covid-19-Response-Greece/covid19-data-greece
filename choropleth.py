@@ -18,7 +18,6 @@ GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH = Path('./nomoi_okxe/nomoi_okxe.shp')
 DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH = Path('./data/greece/NPHO/geographic_distribution.csv')
 
 
-
 GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP = {
     'Περιφερειακή ενότητα': 'prefecture',
     'Αριθμός κρουσμάτων': 'cases',
