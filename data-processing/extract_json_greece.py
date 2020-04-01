@@ -72,4 +72,4 @@ if __name__ == '__main__':
     data = data[data["Country/Region"] == "Greece"]
     data = data.groupby(["Country/Region", "Date"])["Confirmed", "Deaths", "Recovered"].sum()
 
-    export_to_json(data, '../data/greece/timeseries_greece.json')
+    export_to_json(data, '../data/greece/JohnsHopkinsCSSE/timeseries_greece.json')
