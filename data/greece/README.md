@@ -13,5 +13,10 @@ This folder contains data for Greece.
   Data source: [National Public Health Organization of Greece reports](https://eody.gov.gr/epidimiologika-statistika-dedomena/imerisies-ektheseis-covid-19/)
   
   - [`NPHO/geographic_distribution.csv`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/NPHO/geographic_distribution.csv): Geographic distribution of COVID-19 cases in Greece (NPHO report: 29/3/2020)
+  
+- [`wikipedia/`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/wikipedia) \
+  Data source: [Wikipedia - 2020 coronavirus pandemic in Greece](https://el.wikipedia.org/wiki/Πανδημία_του_κορονοϊού_στην_Ελλάδα_το_2020)
+  
+  - [`NPHO/cases.csv`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/wikipedia/cases.csv): Timeline of coronavirus cases in Greece
 
 
