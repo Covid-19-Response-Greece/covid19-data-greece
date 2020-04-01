@@ -15,7 +15,7 @@ GREECE_PREFECTURE_BOUNDARY_FILE_URL = ('http://geodata.gov.gr/en/dataset/6deb6a1
                                         'resource/3e571f7f-42a4-4b49-8db0-311695d72fa3/download/nomoiokxe.zip')
 
 GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH = Path('./nomoi_okxe/nomoi_okxe.shp')
-DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH = Path('./data/greece/NPHO/geographic_distribution.csv')
+DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH = Path('../data/greece/NPHO/geographic_distribution.csv')
 
 
 GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP = {
@@ -95,10 +95,10 @@ def read_greece_prefecture_boundary_shapefile():
         shape_file = Path(tmpdir) / GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH
         data = gpd.read_file(shape_file.as_posix())
         data = data[['NAME_ENG', 'geometry']]
-        
+
     return data.set_index('NAME_ENG').rename_axis('prefecture')
 
-                          
+
 greece_prefecture_boundary = read_greece_prefecture_boundary_shapefile()
 
 data_greece_geographic_distribution = pd.read_csv(DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH, header = 0)
@@ -125,13 +125,12 @@ def plot_choropleth(geo_data, column, path_to_choropleth):
     _ = plt.xticks([])
     _ = plt.yticks([])
     ax.set_title('COVID-19: \n ' + column + ' \n in Greece', fontdict = {'fontsize': '15', 'fontweight': '1'})
-    
+
     fig.savefig(path_to_choropleth, dpi = 300)
     sns.set_context('paper')
 
 
-path_to_choropleth_plot_1 = Path('./data/greece/NPHO/geographic_distribution_choropleth_1.png')
-path_to_choropleth_plot_2 = Path('./data/greece/NPHO/geographic_distribution_choropleth_2.png')    
+path_to_choropleth_plot_1 = Path('../visualizations/geographic_distribution_choropleth_1.png')
+path_to_choropleth_plot_2 = Path('../visualizations/geographic_distribution_choropleth_2.png')
 plot_choropleth(geo_data, 'cases', path_to_choropleth_plot_1)
 plot_choropleth(geo_data, 'cases per 100,000 people', path_to_choropleth_plot_2)
-
