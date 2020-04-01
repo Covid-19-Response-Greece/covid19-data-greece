@@ -31,3 +31,9 @@ This project is performed by volunteers of [COVID-19 Response Greece](https://ww
 ├── analysis               # scripts and notebooks for data analysis
 └── visualizations         # visualization outputs
 ```
+
+## Data visualizations
+
+* Choropleth Map: COVID-19 outbreak in Greece
+
+![choropleth-map-greece](./visualizations/geographic_distribution_choropleth_1.png)
