@@ -154,10 +154,8 @@ def json_data(selectedDate):
 geosource = GeoJSONDataSource(geojson = json_data(DATE[-1]))
 
 
-#Define a sequential multi-hue color palette.
+#Define a sequential multi-hue color palette and reverse order so that dark => high # of cases.
 palette = brewer['YlOrRd'][8]
-
-#Reverse color order so that dark blue is highest # of cases.
 palette = palette[::-1]
 
 #Transform palette to create non-uniform intervals
@@ -208,12 +206,12 @@ def update_plot(attr, old, new):
     
 #Make a slider object: slider 
 slider = DateSlider(title = 'Date',
-                start = dt.strptime(DATE[0], '%Y_%m_%d'),
-                end = dt.strptime(DATE[-1], '%Y_%m_%d'),
-                #step = 1,
-                step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
-                value = dt.strptime(DATE[-1], '%Y_%m_%d')
-                )
+                    start = dt.strptime(DATE[0], '%Y_%m_%d'),
+                    end = dt.strptime(DATE[-1], '%Y_%m_%d'),
+                    #step = 1,
+                    step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
+                    value = dt.strptime(DATE[-1], '%Y_%m_%d')
+                    )
 slider.on_change('value', update_plot)
 
 #Make a column layout of widgetbox(slider) and plot, and add it to the current document
