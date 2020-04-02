@@ -10,7 +10,7 @@ This repository provides datasets regarding the COVID-19 outbreak in Greece. Our
 This project is performed by volunteers of [COVID-19 Response Greece](https://www.covid19response.gr). We are looking for new volunteers and fresh ideas! Feel free to contribute by adding your analysis and visualizations. 
 
 ## Data sources
-Data are updated daily - Last Update: 1/4/2020 17:59 GMT+0300
+Data are updated daily - Last Update: 2/4/2020 13:01 GMT+0300
 
 * Johns Hopkins CSSE: https://systems.jhu.edu/research/public-health/ncov
   * Data repository: https://github.com/CSSEGISandData/COVID-19
