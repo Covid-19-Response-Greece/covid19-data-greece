@@ -9,14 +9,13 @@ import pandas as pd
 import geopandas as gpd
 import json
 
-import datetime
 from datetime import datetime as dt
 
 from bokeh.io import curdoc, output_notebook, show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, Slider, HoverTool, DateSlider, FixedTicker
+from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, HoverTool, DateSlider, FixedTicker
 from bokeh.palettes import brewer
-from bokeh.layouts import widgetbox, row, column
+from bokeh.layouts import widgetbox, column
 
 
 GREECE_PREFECTURE_BOUNDARY_FILE_URL = ('http://geodata.gov.gr/en/dataset/6deb6a12-1a54-41b4-b53b-6b36068b8348/'
@@ -26,18 +25,14 @@ GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH = Path('./nomoi_okxe/nomoi_okxe.shp')
 DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH = Path('../data/greece/NPHO/geographic_distribution.csv')
 
 
-DATE = {
-        20200320: '2020_03_20',
-        20200321: '2020_03_21',
-        20200322: '2020_03_22',
-        20200323: '2020_03_23',
-        20200324: '2020_03_24',
-        20200325: '2020_03_25',
-        20200326: '2020_03_26',
-        20200327: '2020_03_27',
-        20200328: '2020_03_28',
-        20200329: '2020_03_29'
-        }
+DATE = ['2020_03_20',
+        '2020_03_21',
+        '2020_03_22',
+        '2020_03_23',
+        '2020_03_24',
+        '2020_03_25',
+        '2020_03_29'
+        ]
 
 GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP = {
     'Περιφερειακή ενότητα': 'prefecture',
@@ -137,7 +132,7 @@ def create_geographic_distribution_df(datesList):
     data = data.set_index('prefecture').rename(index = PREFECTURE_MAP)
     return data.reset_index()
 
-data_greece_geographic_distribution = create_geographic_distribution_df(list(DATE.values()))
+data_greece_geographic_distribution = create_geographic_distribution_df(DATE)
 
 
 #Define function that returns json_data for date selected by user.  
@@ -156,7 +151,7 @@ def json_data(selectedDate):
     return json_data
 
 #Input GeoJSON source that contains features for plotting.
-geosource = GeoJSONDataSource(geojson = json_data(list(DATE.values())[-1]))
+geosource = GeoJSONDataSource(geojson = json_data(DATE[-1]))
 
 
 #Define a sequential multi-hue color palette.
@@ -191,7 +186,7 @@ color_bar = ColorBar(color_mapper = color_mapper, label_standoff = 8, width = 80
                      location = (0,0), orientation = 'horizontal', ticker = FixedTicker(ticks = ticks))
 
 #Create figure object.
-p = figure(title = 'COVID-19 cases in Greece, %s' %list(DATE.values())[-1], 
+p = figure(title = 'COVID-19 cases in Greece, %s' %DATE[-1], 
            plot_height = 600 , plot_width = 950, toolbar_location = None, tools = [hover])
 p.xgrid.grid_line_color = None
 p.ygrid.grid_line_color = None
@@ -205,29 +200,21 @@ p.add_layout(color_bar, 'below')
 
 # Define the callback function: update_plot
 def update_plot(attr, old, new):
-    #date = dt.fromtimestamp(slider.value/1000).strftime('%Y_%m_%d')
-    date = DATE[slider.value]
+    date = dt.utcfromtimestamp(slider.value/1000).strftime('%Y_%m_%d')
+    #date = DATE[slider.value]
     new_data = json_data(date)
     geosource.geojson = new_data
     p.title.text = 'COVID-19 cases in Greece, %s' %date
     
 #Make a slider object: slider 
-slider = Slider(title = 'Date',
-                start = list(DATE.keys())[0],
-                end = list(DATE.keys())[-1],
-                step = 1,
-                value = list(DATE.keys())[-1]
-                )
-slider.on_change('value', update_plot)
-#Failed attempt to make a DateSlider - cannot get step to work properly!
-"""slider = DateSlider(title = 'Date',
+slider = DateSlider(title = 'Date',
                 start = dt.strptime(DATE[0], '%Y_%m_%d'),
                 end = dt.strptime(DATE[-1], '%Y_%m_%d'),
-                step = 1,
-                #step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
+                #step = 1,
+                step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
                 value = dt.strptime(DATE[-1], '%Y_%m_%d')
                 )
-"""
+slider.on_change('value', update_plot)
 
 #Make a column layout of widgetbox(slider) and plot, and add it to the current document
 layout = column(p,widgetbox(slider))
