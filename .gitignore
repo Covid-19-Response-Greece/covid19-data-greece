@@ -1,2 +1,4 @@
 .DS_Store
 *.log
+analysis/data/countries_110m
+analysis/data/obesity.csv
