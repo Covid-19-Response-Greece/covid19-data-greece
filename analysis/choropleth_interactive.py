@@ -4,6 +4,7 @@ import tempfile
 import zipfile
 
 import requests
+import numpy as np
 import pandas as pd
 import geopandas as gpd
 import json
@@ -13,7 +14,7 @@ from datetime import datetime as dt
 
 from bokeh.io import curdoc, output_notebook, show, output_file
 from bokeh.plotting import figure
-from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, Slider, HoverTool, DateSlider
+from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, Slider, HoverTool, DateSlider, FixedTicker
 from bokeh.palettes import brewer
 from bokeh.layouts import widgetbox, row, column
 
@@ -32,7 +33,10 @@ DATE = {
         20200323: '2020_03_23',
         20200324: '2020_03_24',
         20200325: '2020_03_25',
-        #20200329: '2020_03_29'
+        20200326: '2020_03_26',
+        20200327: '2020_03_27',
+        20200328: '2020_03_28',
+        20200329: '2020_03_29'
         }
 
 GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP = {
@@ -113,7 +117,6 @@ def read_greece_prefecture_boundary_shapefile():
         shape_file = Path(tmpdir) / GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH
         data = gpd.read_file(shape_file.as_posix())
         data = data[['NAME_ENG', 'geometry']]
-        
     return data.rename(columns = {'NAME_ENG': 'prefecture'})
                           
 greece_prefecture_boundary = read_greece_prefecture_boundary_shapefile()
@@ -122,8 +125,12 @@ greece_prefecture_boundary = read_greece_prefecture_boundary_shapefile()
 #Read csv file using pandas
 def create_geographic_distribution_df(datesList):
     data = pd.DataFrame()
+    path_str = '../data/greece/NPHO/geographic_distribution_%s.csv'
     for date in datesList[:]:
-        temp = pd.read_csv(('../data/greece/NPHO/geographic_distribution_%s.csv' %date), header = 0)
+        if Path(path_str %date).exists():
+            temp = pd.read_csv((path_str %date), header = 0)
+        else:
+            temp = pd.read_csv((path_str %datesList[0]), header = 0, usecols = [list(GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP.keys())[0]])
         temp.insert(1, 'date', date)
         data = data.append(temp)
     data = data.rename(columns = GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP)
@@ -148,37 +155,44 @@ def json_data(selectedDate):
     json_data = json.dumps(merged_json)
     return json_data
 
-
 #Input GeoJSON source that contains features for plotting.
 geosource = GeoJSONDataSource(geojson = json_data(list(DATE.values())[-1]))
 
-#Define a sequential multi-hue color palette.
-palette = brewer['YlGnBu'][4]
 
-#Reverse color order so that dark blue is highest obesity.
+#Define a sequential multi-hue color palette.
+palette = brewer['YlOrRd'][8]
+
+#Reverse color order so that dark blue is highest # of cases.
 palette = palette[::-1]
 
+#Transform palette to create non-uniform intervals
+base_colors = palette
+bounds = [-100000, 0, 10, 20, 50, 100, 200, 400, 800, 100000]
+low = 0
+high = 800
+bound_colors = []
+j = 0
+for i in range(low, high, 10):
+    if i >= bounds[j+1]:
+        j += 1
+    bound_colors.append(base_colors[j])
+    
 #Instantiate LinearColorMapper that linearly maps numbers in a range, into a sequence of colors. Input nan_color.
-color_mapper = LinearColorMapper(palette = palette, low = 0, high = 200, nan_color = '#d9d9d9')
+color_mapper = LinearColorMapper(palette = bound_colors, low = low, high = high, nan_color = '#d9d9d9')
 
-#Define custom tick labels for color bar.
-tick_labels = {
-    '0': '0',
-    '50': '50',
-    '100': '100',
-    '150': '150',
-    '200' : '>200'
-    }
-
-#Add hover tool
+#Add hover tool.
 hover = HoverTool(tooltips = [('prefecture', '@prefecture'), ('# of cases', '@cases')])
 
+#Define custome ticks for colorbar.
+ticks = np.array([0, 20, 50, 100, 200, 400, 800])
+
 #Create color bar. 
-color_bar = ColorBar(color_mapper = color_mapper, label_standoff = 8, width = 500, height = 20,
-                     border_line_color= None, location = (0,0), orientation = 'horizontal', major_label_overrides = tick_labels)
+color_bar = ColorBar(color_mapper = color_mapper, label_standoff = 8, width = 800, height = 20,border_line_color= None,
+                     location = (0,0), orientation = 'horizontal', ticker = FixedTicker(ticks = ticks))
 
 #Create figure object.
-p = figure(title = 'COVID-19 cases in Greece, 2020_03_25', plot_height = 600 , plot_width = 950, toolbar_location = None, tools = [hover])
+p = figure(title = 'COVID-19 cases in Greece, %s' %list(DATE.values())[-1], 
+           plot_height = 600 , plot_width = 950, toolbar_location = None, tools = [hover])
 p.xgrid.grid_line_color = None
 p.ygrid.grid_line_color = None
 
@@ -197,35 +211,29 @@ def update_plot(attr, old, new):
     geosource.geojson = new_data
     p.title.text = 'COVID-19 cases in Greece, %s' %date
     
-# Make a slider object: slider 
-"""slider = DateSlider(title = 'Date',
-                start = dt.strptime(DATE[0], '%Y_%m_%d'),
-                end = dt.strptime(DATE[-1], '%Y_%m_%d'),
-                step = 10000,
-                #step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
-                value = dt.strptime(DATE[-1], '%Y_%m_%d')
-                )
-"""
+#Make a slider object: slider 
 slider = Slider(title = 'Date',
                 start = list(DATE.keys())[0],
                 end = list(DATE.keys())[-1],
                 step = 1,
-                #step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
                 value = list(DATE.keys())[-1]
                 )
 slider.on_change('value', update_plot)
+#Failed attempt to make a DateSlider - cannot get step to work properly!
+"""slider = DateSlider(title = 'Date',
+                start = dt.strptime(DATE[0], '%Y_%m_%d'),
+                end = dt.strptime(DATE[-1], '%Y_%m_%d'),
+                step = 1,
+                #step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
+                value = dt.strptime(DATE[-1], '%Y_%m_%d')
+                )
+"""
 
-# Make a column layout of widgetbox(slider) and plot, and add it to the current document
+#Make a column layout of widgetbox(slider) and plot, and add it to the current document
 layout = column(p,widgetbox(slider))
 curdoc().add_root(layout)
 
-
-#Display figure inline in Jupyter Notebook.
-#output_notebook()
-#Display figure.
-#show(p)
-
 #Display on Localhost. Type following commands in cmd.
-# cd Documents/GitHub/covid19-data-greece/analysis
+# cd Documents/GitHub/covid19-data-greece/analysis (for my pc only)
 # bokeh serve --show choropleth_interactive.py
 
