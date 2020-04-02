@@ -9,6 +9,7 @@ import pandas as pd
 import geopandas as gpd
 import json
 
+import datetime
 from datetime import datetime as dt
 
 from bokeh.io import curdoc, output_notebook, show, output_file
@@ -31,6 +32,9 @@ DATE = ['2020_03_20',
         '2020_03_23',
         '2020_03_24',
         '2020_03_25',
+        '2020_03_26',
+        '2020_03_27',
+        '2020_03_28',
         '2020_03_29'
         ]
 
