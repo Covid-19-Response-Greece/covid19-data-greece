@@ -16,7 +16,7 @@ from bokeh.plotting import figure
 from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, Slider, HoverTool, DateSlider
 from bokeh.palettes import brewer
 from bokeh.layouts import widgetbox, row, column
-#from bokeh.models.widgets.sliders import DateSlider
+
 
 GREECE_PREFECTURE_BOUNDARY_FILE_URL = ('http://geodata.gov.gr/en/dataset/6deb6a12-1a54-41b4-b53b-6b36068b8348/'
                                         'resource/3e571f7f-42a4-4b49-8db0-311695d72fa3/download/nomoiokxe.zip')
@@ -135,9 +135,10 @@ data_greece_geographic_distribution = create_geographic_distribution_df(list(DAT
 
 #Define function that returns json_data for date selected by user.  
 def json_data(selectedDate):
-    #Filter data for selected year.
-    data_date = data_greece_geographic_distribution[data_greece_geographic_distribution['date'] == selectedDate]
-    #Merge dataframes data and df_2016, preserving every row in geoData via left-merge.
+    #Filter data for selected date.
+    data = data_greece_geographic_distribution
+    data_date = data[data['date'] == selectedDate]
+    #Merge dataframes greece_prefecture_boundary and data_date, preserving every row in the former via left-merge.
     merged = greece_prefecture_boundary.merge(data_date, left_on = 'prefecture', right_on = 'prefecture', how = 'left')
     #Replace NaN values to string 'No data'.
     merged.fillna({'date': selectedDate, 'cases': 'No data', 'cases per 100,000 people': 'No data'}, inplace = True)
@@ -224,7 +225,7 @@ curdoc().add_root(layout)
 #Display figure.
 #show(p)
 
-#Display on Localhost. Type following commands on cmd.
+#Display on Localhost. Type following commands in cmd.
 # cd Documents/GitHub/covid19-data-greece/analysis
-# bokeh serve --show choropleth_interactive_test_covid.py
+# bokeh serve --show choropleth_interactive.py
 
