@@ -6,7 +6,6 @@ import zipfile
 import requests
 import pandas as pd
 import geopandas as gpd
-#import geoplot as gplt
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -80,7 +79,7 @@ PREFECTURE_MAP = {
     'Χαλκιδικής': 'N. CHALKIDIKIS',
     'Χανίων': 'N. CHANION',
     'Χίου': 'N. CHIOU',
-    'Υπό διευρεύνηση': 'UNDER INVESTIGATION'
+    'Υπό διερεύνηση': 'UNDER INVESTIGATION'
     }
 
 
@@ -110,6 +109,8 @@ geo_data.fillna({'cases': 0, 'cases per 100,000 people': 0}, inplace = True)
 
 
 def plot_choropleth(geo_data, column, path_to_choropleth):
+    """Plots a choropleth of the geographical distribution of COVID-19 cases in Greece.
+    """
     sns.set_context('poster')
     fig, ax = plt.subplots(1, figsize = (10, 6))
     geo_data.plot(
@@ -120,7 +121,7 @@ def plot_choropleth(geo_data, column, path_to_choropleth):
         cmap = 'viridis',
         edgecolor = '0.8',
         ax = ax
-    )
+        )
     ax.set_aspect(1)
     _ = plt.xticks([])
     _ = plt.yticks([])
