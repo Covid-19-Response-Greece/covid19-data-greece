@@ -12,19 +12,21 @@ import json
 import datetime
 from datetime import datetime as dt
 
-from bokeh.io import curdoc, output_notebook, show, output_file
-from bokeh.plotting import figure
+from bokeh.io import curdoc
+from bokeh.plotting import figure, save
 from bokeh.models import GeoJSONDataSource, LinearColorMapper, ColorBar, HoverTool, DateSlider, FixedTicker
 from bokeh.palettes import brewer
-from bokeh.layouts import widgetbox, column
+from bokeh.layouts import column
 
 
-GREECE_PREFECTURE_BOUNDARY_FILE_URL = ('http://geodata.gov.gr/en/dataset/6deb6a12-1a54-41b4-b53b-6b36068b8348/'
-                                        'resource/3e571f7f-42a4-4b49-8db0-311695d72fa3/download/nomoiokxe.zip')
+OUTPUT_FILE_PATH = '../visualizations/geographic_distribution_greece_2020_03_29.html'
 
-GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH = Path('./nomoi_okxe/nomoi_okxe.shp')
-DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH = Path('../data/greece/NPHO/geographic_distribution.csv')
+PREFECTURE_BOUNDARIES_FILE_URL = ('http://geodata.gov.gr/en/dataset/6deb6a12-1a54-41b4-b53b-6b36068b8348/'
+                                  'resource/3e571f7f-42a4-4b49-8db0-311695d72fa3/download/nomoiokxe.zip')
 
+PREFECTURE_BOUNDARIES_SHAPEFILE_PATH = './nomoi_okxe/nomoi_okxe.shp'
+
+GEOGRAPHIC_DISTRIBUTION_DATA_PATH = '../data/greece/NPHO/geographic_distribution_%s.csv'
 
 DATE = ['2020_03_20',
         '2020_03_21',
@@ -104,27 +106,32 @@ PREFECTURE_MAP = {
     }
 
 
-#Read shapefile using Geopandas
-def read_greece_prefecture_boundary_shapefile():
+def create_interactive_map():
+    prefecture_boundaries = _read_prefecture_boundaries_shapefile()
+    geographic_distribution_data = _read_geographic_distribution_data(DATE)
+    geo_source = GeoJSONDataSource(geojson = _merge_and_convert_to_json(prefecture_boundaries, geographic_distribution_data, DATE[-1]))
+    _plot_choropleth(geo_source)
+
+
+def _read_prefecture_boundaries_shapefile():
     """Reads shape file of Greece prefecture boundaries from geodata.gov.
-    Make sure to use requests_cache to cache the retrieved data.
     """
-    r = requests.get(GREECE_PREFECTURE_BOUNDARY_FILE_URL)
+    r = requests.get(PREFECTURE_BOUNDARIES_FILE_URL)
     z = zipfile.ZipFile(io.BytesIO(r.content))
     with tempfile.TemporaryDirectory(prefix='greece-prefecture-boundary-files') as tmpdir:
         z.extractall(path = tmpdir)
-        shape_file = Path(tmpdir) / GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH
+        shape_file = Path(tmpdir) / PREFECTURE_BOUNDARIES_SHAPEFILE_PATH
         data = gpd.read_file(shape_file.as_posix())
         data = data[['NAME_ENG', 'geometry']]
     return data.rename(columns = {'NAME_ENG': 'prefecture'})
                           
-greece_prefecture_boundary = read_greece_prefecture_boundary_shapefile()
 
-
-#Read csv file using pandas
-def create_geographic_distribution_df(datesList):
+def _read_geographic_distribution_data(datesList):
+    """Reads data for the geographic distribution of COVID-19 cases in Greece
+    from csv files for the dates provided by the user.
+    """
     data = pd.DataFrame()
-    path_str = '../data/greece/NPHO/geographic_distribution_%s.csv'
+    path_str = GEOGRAPHIC_DISTRIBUTION_DATA_PATH
     for date in datesList[:]:
         if Path(path_str %date).exists():
             temp = pd.read_csv((path_str %date), header = 0)
@@ -136,93 +143,110 @@ def create_geographic_distribution_df(datesList):
     data = data.set_index('prefecture').rename(index = PREFECTURE_MAP)
     return data.reset_index()
 
-data_greece_geographic_distribution = create_geographic_distribution_df(DATE)
-
 
 #Define function that returns json_data for date selected by user.  
-def json_data(selectedDate):
+def _merge_and_convert_to_json(prefectureBoundaries, geographicDistributionData, selectedDate):
+    """Merges the prefecture_boundaries geoDataFrame with the geographic_distribution Dataframe
+    and converts them to a JSON string, to be passed to GeoJSONDataSource,
+    so that they can be used as data source for the choropleth plot.
+    """
+    data = geographicDistributionData
+    
     #Filter data for selected date.
-    data = data_greece_geographic_distribution
     data_date = data[data['date'] == selectedDate]
-    #Merge dataframes greece_prefecture_boundary and data_date, preserving every row in the former via left-merge.
-    merged = greece_prefecture_boundary.merge(data_date, left_on = 'prefecture', right_on = 'prefecture', how = 'left')
-    #Replace NaN values to string 'No data'.
+    
+    #Merge dataframes prefecture_boundaries and data_date, preserving every row in the former via left-merge.
+    merged = prefectureBoundaries.merge(data_date, left_on = 'prefecture', right_on = 'prefecture', how = 'left')
+    
+    #Replace NaN values with string 'No data' and add date where missing.
     merged.fillna({'date': selectedDate, 'cases': 'No data', 'cases per 100,000 people': 'No data'}, inplace = True)
+    
     #Read data to json.
     merged_json = json.loads(merged.to_json())
+    
     #Convert to String like object.
     json_data = json.dumps(merged_json)
     return json_data
 
-#Input GeoJSON source that contains features for plotting.
-geosource = GeoJSONDataSource(geojson = json_data(DATE[-1]))
+
+def _transform_color_intervals(baseColors, low, high):
+    """Transforms a color palette to create non-uniform intervals
+    with LinearColorMapper.
+    """
+    bounds = [-100000, 0, 10, 20, 50, 100, 200, 400, 800, 100000]
+    step = min(abs(bounds[i]-bounds[i-1]) for i in range(len(bounds)))
+    bound_colors = []
+    j = 0
+    for i in range(low, high, step):
+        if i >= bounds[j+1]:
+            j += 1
+        bound_colors.append(baseColors[j])
+    return bound_colors, low, high
 
 
-#Define a sequential multi-hue color palette and reverse order so that dark => high # of cases.
-palette = brewer['YlOrRd'][8]
-palette = palette[::-1]
-
-#Transform palette to create non-uniform intervals
-base_colors = palette
-bounds = [-100000, 0, 10, 20, 50, 100, 200, 400, 800, 100000]
-low = 0
-high = 800
-bound_colors = []
-j = 0
-for i in range(low, high, 10):
-    if i >= bounds[j+1]:
-        j += 1
-    bound_colors.append(base_colors[j])
-    
-#Instantiate LinearColorMapper that linearly maps numbers in a range, into a sequence of colors. Input nan_color.
-color_mapper = LinearColorMapper(palette = bound_colors, low = low, high = high, nan_color = '#d9d9d9')
-
-#Add hover tool.
-hover = HoverTool(tooltips = [('prefecture', '@prefecture'), ('# of cases', '@cases')])
-
-#Define custome ticks for colorbar.
-ticks = np.array([0, 20, 50, 100, 200, 400, 800])
-
-#Create color bar. 
-color_bar = ColorBar(color_mapper = color_mapper, label_standoff = 8, width = 800, height = 20,border_line_color= None,
-                     location = (0,0), orientation = 'horizontal', ticker = FixedTicker(ticks = ticks))
-
-#Create figure object.
-p = figure(title = 'COVID-19 cases in Greece, %s' %DATE[-1], 
-           plot_height = 600 , plot_width = 950, toolbar_location = None, tools = [hover])
-p.xgrid.grid_line_color = None
-p.ygrid.grid_line_color = None
-
-#Add patch renderer to figure. 
-p.patches('xs','ys', source = geosource, fill_color = {'field' :'cases', 'transform' : color_mapper},
-          line_color = 'black', line_width = 0.25, fill_alpha = 1)
-
-#Specify figure layout.
-p.add_layout(color_bar, 'below')
-
-# Define the callback function: update_plot
-def update_plot(attr, old, new):
+def _update_plot(attr, old, new):
+    """Callback function to update the plot using a slider.
+    """
     date = dt.utcfromtimestamp(slider.value/1000).strftime('%Y_%m_%d')
-    #date = DATE[slider.value]
-    new_data = json_data(date)
-    geosource.geojson = new_data
+    new_data = _merge_and_convert_to_json(prefecture_boundaries, geographic_distribution_data, date)
+    geo_source.geojson = new_data
     p.title.text = 'COVID-19 cases in Greece, %s' %date
+
+
+def _plot_choropleth(geoSource):
+    #Define a sequential multi-hue color palette and reverse order so that dark => high # of cases.
+    base_colors = brewer['YlOrRd'][8]
+    base_colors = base_colors[::-1]
     
-#Make a slider object: slider 
-slider = DateSlider(title = 'Date',
-                    start = dt.strptime(DATE[0], '%Y_%m_%d'),
-                    end = dt.strptime(DATE[-1], '%Y_%m_%d'),
-                    #step = 1,
-                    step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
-                    value = dt.strptime(DATE[-1], '%Y_%m_%d')
-                    )
-slider.on_change('value', update_plot)
+    #Transform palette to create non-uniform intervals
+    palette, low, high = _transform_color_intervals(base_colors, 0, 800)
 
-#Make a column layout of widgetbox(slider) and plot, and add it to the current document
-layout = column(p,widgetbox(slider))
-curdoc().add_root(layout)
+    #Instantiate LinearColorMapper that maps numbers in a range, into a sequence of colors. Input nan_color.
+    color_mapper = LinearColorMapper(palette = palette, low = low, high = high, nan_color = '#d9d9d9')
 
-#Display on Localhost. Type following commands in cmd.
-# cd Documents/GitHub/covid19-data-greece/analysis (for my pc only)
-# bokeh serve --show choropleth_interactive.py
+    #Add hover tool.
+    hover = HoverTool(tooltips = [('prefecture', '@prefecture'), ('# of cases', '@cases')])
+
+    #Define custome ticks for colorbar.
+    ticks = np.array([0, 20, 50, 100, 200, 400, 800])
+
+    #Create color bar. 
+    color_bar = ColorBar(color_mapper = color_mapper, label_standoff = 8, width = 800, height = 20,border_line_color= None,
+                         location = (0,0), orientation = 'horizontal', ticker = FixedTicker(ticks = ticks))
+
+    #Create figure object.
+    p = figure(title = 'COVID-19 cases in Greece, %s' %DATE[-1], 
+               plot_height = 600 , plot_width = 950, toolbar_location = None, tools = [hover])
+    p.xgrid.grid_line_color = None
+    p.ygrid.grid_line_color = None
+
+    #Add patch renderer to figure. 
+    p.patches('xs','ys', source = geoSource, fill_color = {'field' :'cases', 'transform' : color_mapper},
+              line_color = 'black', line_width = 0.25, fill_alpha = 1)
+
+    #Specify figure layout.
+    p.add_layout(color_bar, 'below')
+
+    #Make a slider object to trigger _update_plot.
+    slider = DateSlider(title = 'Date',
+                        start = dt.strptime(DATE[0], '%Y_%m_%d'),
+                        end = dt.strptime(DATE[-1], '%Y_%m_%d'),
+                        step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
+                        value = dt.strptime(DATE[-1], '%Y_%m_%d')
+                        )
+    slider.on_change('value', _update_plot)
+
+    #Make a column layout of plot and slider, and add it to the current document
+    layout = column(p, column(slider))
+    curdoc().add_root(layout)
+    
+    #Crete an HTML of the static choropleth for 2020-03-29
+    save(p, OUTPUT_FILE_PATH, resources = None, title = 'COVID-19 cases in Greece, 2020_03_29')
+    
+    
+if __name__ == '__main__':
+    create_interactive_map()
+    
+    #To display the interactive map on Localhost, type the following in cmd.
+    # bokeh serve --show choropleth_interactive.py
 
