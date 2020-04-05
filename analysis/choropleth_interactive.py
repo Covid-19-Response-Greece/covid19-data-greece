@@ -110,7 +110,7 @@ def create_interactive_map():
     prefecture_boundaries = _read_prefecture_boundaries_shapefile()
     geographic_distribution_data = _read_geographic_distribution_data(DATES)
     geo_source = GeoJSONDataSource(geojson = _merge_and_convert_to_json(prefecture_boundaries, geographic_distribution_data, DATES[-1]))
-    _plot_choropleth(geo_source)
+    _plot_choropleth(geo_source, prefecture_boundaries, geographic_distribution_data)
 
 
 def _read_prefecture_boundaries_shapefile():
@@ -183,16 +183,7 @@ def _transform_color_intervals(baseColors, low, high):
     return bound_colors, low, high
 
 
-def _update_plot(attr, old, new):
-    """Callback function to update the plot using a slider.
-    """
-    date = dt.utcfromtimestamp(slider.value/1000).strftime('%Y_%m_%d')
-    new_data = _merge_and_convert_to_json(prefecture_boundaries, geographic_distribution_data, date)
-    geo_source.geojson = new_data
-    p.title.text = 'COVID-19 cases in Greece, %s' %date
-
-
-def _plot_choropleth(geoSource):
+def _plot_choropleth(geoSource, prefectureBoundaries, geographicDistributionData):
     #Define a sequential multi-hue color palette and reverse order so that dark => high # of cases.
     base_colors = brewer['YlOrRd'][8]
     base_colors = base_colors[::-1]
@@ -225,6 +216,14 @@ def _plot_choropleth(geoSource):
 
     #Specify figure layout.
     p.add_layout(color_bar, 'below')
+    
+    def _update_plot(attr, old, new):
+        """Callback function to update the plot using a slider.
+        """
+        date = dt.utcfromtimestamp(slider.value/1000).strftime('%Y_%m_%d')
+        new_data = _merge_and_convert_to_json(prefectureBoundaries, geographicDistributionData, date)
+        geoSource.geojson = new_data
+        p.title.text = 'COVID-19 cases in Greece, %s' %date
 
     #Make a slider object to trigger _update_plot.
     slider = DateSlider(title = 'Date',
@@ -238,14 +237,14 @@ def _plot_choropleth(geoSource):
     #Make a column layout of plot and slider, and add it to the current document.
     layout = column(p, column(slider))
     curdoc().add_root(layout)
+    curdoc().title = 'COVID-19 cases in Greece'
     
     #Crete an HTML of the static choropleth for 2020-03-29.
     save(p, OUTPUT_FILE_PATH, resources = None, title = 'COVID-19 cases in Greece, 2020_03_29')
     
     
-if __name__ == '__main__':
-    create_interactive_map()
+create_interactive_map()
     
-    #To display the interactive map on Localhost, type the following in cmd.
-    # bokeh serve --show choropleth_interactive.py
+#To display the interactive map on Localhost, type the following in cmd.
+# bokeh serve --show choropleth_interactive.py
 
