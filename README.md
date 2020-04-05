@@ -37,4 +37,4 @@ Data are updated daily - Last Update: 4/4/2020 11:26 GMT+0300
 
 * Choropleth Map: COVID-19 outbreak in Greece
 
-![choropleth-map-greece](./visualizations/geographic_distribution_greece_2020_03_29.html)
+![choropleth-map-greece](./visualizations/geographic_distribution_choropleth_1.png)
