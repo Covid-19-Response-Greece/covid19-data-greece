@@ -7,21 +7,21 @@ This repository provides datasets regarding the COVID-19 outbreak in Greece. Our
 
 ## How to contribute
 
-This project is performed by volunteers of [COVID-19 Response Greece](https://www.covid19response.gr). We are looking for new volunteers and fresh ideas! Feel free to contribute by adding your analysis and visualizations. 
+This project is performed by volunteers of [COVID-19 Response Greece](https://www.covid19response.gr). We are looking for new volunteers and fresh ideas! Feel free to contribute by adding your analysis and visualizations.
 
 ## Data sources
-Data are updated daily - Last Update: 2/4/2020 13:01 GMT+0300
+Data are updated daily - Last Update: 4/4/2020 11:26 GMT+0300
 
 * Johns Hopkins CSSE: https://systems.jhu.edu/research/public-health/ncov
   * Data repository: https://github.com/CSSEGISandData/COVID-19
 
 * National Public Health Organization (NPHO) of Greece: https://eody.gov.gr/
-  
+
 * Wikipedia: https://el.wikipedia.org/wiki/Πανδημία_του_κορονοϊού_στην_Ελλάδα_το_2020
 
   ( [+ suggest a data source!](mailto:alex.delitzas@gmail.com) )
-  
-## Folder Structure 
+
+## Folder Structure
 
 ```bash
 .
@@ -37,4 +37,4 @@ Data are updated daily - Last Update: 2/4/2020 13:01 GMT+0300
 
 * Choropleth Map: COVID-19 outbreak in Greece
 
-![choropleth-map-greece](./visualizations/geographic_distribution_choropleth_1.png)
+![choropleth-map-greece](./visualizations/geographic_distribution_greece_2020_03_29.html)
