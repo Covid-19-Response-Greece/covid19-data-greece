@@ -28,7 +28,7 @@ PREFECTURE_BOUNDARIES_SHAPEFILE_PATH = './nomoi_okxe/nomoi_okxe.shp'
 
 GEOGRAPHIC_DISTRIBUTION_DATA_PATH = '../data/greece/NPHO/geographic_distribution_%s.csv'
 
-DATE = ['2020_03_20',
+DATES = ['2020_03_20',
         '2020_03_21',
         '2020_03_22',
         '2020_03_23',
@@ -108,8 +108,8 @@ PREFECTURE_MAP = {
 
 def create_interactive_map():
     prefecture_boundaries = _read_prefecture_boundaries_shapefile()
-    geographic_distribution_data = _read_geographic_distribution_data(DATE)
-    geo_source = GeoJSONDataSource(geojson = _merge_and_convert_to_json(prefecture_boundaries, geographic_distribution_data, DATE[-1]))
+    geographic_distribution_data = _read_geographic_distribution_data(DATES)
+    geo_source = GeoJSONDataSource(geojson = _merge_and_convert_to_json(prefecture_boundaries, geographic_distribution_data, DATES[-1]))
     _plot_choropleth(geo_source)
 
 
@@ -128,7 +128,7 @@ def _read_prefecture_boundaries_shapefile():
 
 def _read_geographic_distribution_data(datesList):
     """Reads data for the geographic distribution of COVID-19 cases in Greece
-    from csv files for the dates provided by the user.
+    from csv files for the dates in DATES.
     """
     data = pd.DataFrame()
     path_str = GEOGRAPHIC_DISTRIBUTION_DATA_PATH
@@ -144,7 +144,6 @@ def _read_geographic_distribution_data(datesList):
     return data.reset_index()
 
 
-#Define function that returns json_data for date selected by user.  
 def _merge_and_convert_to_json(prefectureBoundaries, geographicDistributionData, selectedDate):
     """Merges the prefecture_boundaries geoDataFrame with the geographic_distribution Dataframe
     and converts them to a JSON string, to be passed to GeoJSONDataSource,
@@ -198,7 +197,7 @@ def _plot_choropleth(geoSource):
     base_colors = brewer['YlOrRd'][8]
     base_colors = base_colors[::-1]
     
-    #Transform palette to create non-uniform intervals
+    #Transform palette to create non-uniform intervals.
     palette, low, high = _transform_color_intervals(base_colors, 0, 800)
 
     #Instantiate LinearColorMapper that maps numbers in a range, into a sequence of colors. Input nan_color.
@@ -207,7 +206,7 @@ def _plot_choropleth(geoSource):
     #Add hover tool.
     hover = HoverTool(tooltips = [('prefecture', '@prefecture'), ('# of cases', '@cases')])
 
-    #Define custome ticks for colorbar.
+    #Define custom ticks for colorbar.
     ticks = np.array([0, 20, 50, 100, 200, 400, 800])
 
     #Create color bar. 
@@ -215,7 +214,7 @@ def _plot_choropleth(geoSource):
                          location = (0,0), orientation = 'horizontal', ticker = FixedTicker(ticks = ticks))
 
     #Create figure object.
-    p = figure(title = 'COVID-19 cases in Greece, %s' %DATE[-1], 
+    p = figure(title = 'COVID-19 cases in Greece, %s' %DATES[-1], 
                plot_height = 600 , plot_width = 950, toolbar_location = None, tools = [hover])
     p.xgrid.grid_line_color = None
     p.ygrid.grid_line_color = None
@@ -229,18 +228,18 @@ def _plot_choropleth(geoSource):
 
     #Make a slider object to trigger _update_plot.
     slider = DateSlider(title = 'Date',
-                        start = dt.strptime(DATE[0], '%Y_%m_%d'),
-                        end = dt.strptime(DATE[-1], '%Y_%m_%d'),
+                        start = dt.strptime(DATES[0], '%Y_%m_%d'),
+                        end = dt.strptime(DATES[-1], '%Y_%m_%d'),
                         step = int(datetime.timedelta(days = 1).total_seconds()*1000), 
-                        value = dt.strptime(DATE[-1], '%Y_%m_%d')
+                        value = dt.strptime(DATES[-1], '%Y_%m_%d')
                         )
     slider.on_change('value', _update_plot)
 
-    #Make a column layout of plot and slider, and add it to the current document
+    #Make a column layout of plot and slider, and add it to the current document.
     layout = column(p, column(slider))
     curdoc().add_root(layout)
     
-    #Crete an HTML of the static choropleth for 2020-03-29
+    #Crete an HTML of the static choropleth for 2020-03-29.
     save(p, OUTPUT_FILE_PATH, resources = None, title = 'COVID-19 cases in Greece, 2020_03_29')
     
     
