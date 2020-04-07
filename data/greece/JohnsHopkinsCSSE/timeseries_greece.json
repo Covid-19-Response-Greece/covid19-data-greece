@@ -437,6 +437,24 @@
 			"confirmed": 1613,
 			"recovered": 78,
 			"deaths": 63
+		},
+		{
+			"date": "2020-04-04",
+			"confirmed": 1673,
+			"recovered": 78,
+			"deaths": 68
+		},
+		{
+			"date": "2020-04-05",
+			"confirmed": 1735,
+			"recovered": 78,
+			"deaths": 73
+		},
+		{
+			"date": "2020-04-06",
+			"confirmed": 1755,
+			"recovered": 269,
+			"deaths": 79
 		}
 	]
 }
