@@ -455,6 +455,42 @@
 			"confirmed": 1755,
 			"recovered": 269,
 			"deaths": 79
+		},
+		{
+			"date": "2020-04-07",
+			"confirmed": 1832,
+			"recovered": 269,
+			"deaths": 81
+		},
+		{
+			"date": "2020-04-08",
+			"confirmed": 1884,
+			"recovered": 269,
+			"deaths": 83
+		},
+		{
+			"date": "2020-04-09",
+			"confirmed": 1955,
+			"recovered": 269,
+			"deaths": 87
+		},
+		{
+			"date": "2020-04-10",
+			"confirmed": 2011,
+			"recovered": 269,
+			"deaths": 92
+		},
+		{
+			"date": "2020-04-11",
+			"confirmed": 2081,
+			"recovered": 269,
+			"deaths": 93
+		},
+		{
+			"date": "2020-04-12",
+			"confirmed": 2114,
+			"recovered": 269,
+			"deaths": 98
 		}
 	]
 }
