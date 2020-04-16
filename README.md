@@ -19,6 +19,8 @@ Data are updated daily - Last Update: 13/4/2020 19:48 GMT+0300
 
 * Wikipedia: https://el.wikipedia.org/wiki/Πανδημία_του_κορονοϊού_στην_Ελλάδα_το_2020
 
+* isMOOD covid19 Greece: https://covid19live.ismood.com/
+
   ( [+ suggest a data source!](mailto:alex.delitzas@gmail.com) )
 
 ## Folder Structure
