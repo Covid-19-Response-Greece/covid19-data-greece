@@ -3,6 +3,7 @@
 import os
 import urllib.request
 import sys
+import json
 
 DOWNLOADS_DIR = './'
 
@@ -18,6 +19,15 @@ params = ['?country_name=greece',
 urls = ['https://covidapi.ismood.com/total-info/',
         'https://covidapi.ismood.com/daily-info/',
         'https://covidapi.ismood.com/regions/']
+
+
+def pretty_output_json(filename):
+    
+    with open(filename, encoding='utf8') as json_file:
+        data = json.load(json_file)
+    
+    with open(filename, 'w', encoding='utf8') as outfile:
+        json.dump(data, outfile, indent=4, sort_keys=True)
 
 def download():
     print('Downloading data ...')
@@ -36,12 +46,14 @@ def download():
         
         try:
             urllib.request.urlretrieve(total_url, filename)
+            pretty_output_json(filename)
+
         except Exception as inst:
             print(inst)
             print('Encountered error')
             sys.exit()
 
     print('Done.')
-
+    
 if __name__ == '__main__':
     download()
