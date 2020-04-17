@@ -66,7 +66,7 @@ def extract_table(soup):
         'New deaths',
         'Total recoveries',
         'In intensive care (total)',
-        'Cumulative total tests performed',
+        'Cumulative tests performed',
         'Active cases'
     ]
 
