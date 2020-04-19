@@ -40,11 +40,9 @@ def convert_greek_month_name_to_number(greek_month_name):
 
 
 def change_data_format(date_from_source):
-    date = date_from_source.split("[", 1)[0]
-    date = date.strip()
-
-    (day, month_name, year) = date.split(" ")
-
+    (day, month_name, year) = date_from_source.split()[:3]
+    year = year.split("[",1)[0]
+    
     month_number = convert_greek_month_name_to_number(month_name)
 
     if len(day) == 1:
