@@ -14,6 +14,8 @@ This project is performed by volunteers of [COVID-19 Response Greece](https://ww
 
 * Johns Hopkins CSSE: https://systems.jhu.edu/research/public-health/ncov
   * Data repository: https://github.com/CSSEGISandData/COVID-19
+  
+* World Health Organization (WHO): https://www.who.int/
 
 * National Public Health Organization (NPHO) of Greece: https://eody.gov.gr/
 
