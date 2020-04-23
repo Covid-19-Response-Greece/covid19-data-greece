@@ -14,7 +14,7 @@ GREECE_PREFECTURE_BOUNDARY_FILE_URL = ('http://geodata.gov.gr/en/dataset/6deb6a1
                                         'resource/3e571f7f-42a4-4b49-8db0-311695d72fa3/download/nomoiokxe.zip')
 
 GREECE_PREFECTURE_BOUNDARY_SHAPEFILE_PATH = Path('./nomoi_okxe/nomoi_okxe.shp')
-DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH = Path('../data/greece/NPHO/geographic_distribution.csv')
+DATA_GREECE_GEOGRAPHIC_DISTRIBUTION_PATH = Path('../../data/greece/NPHO/geographic_distribution.csv')
 
 
 GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP = {
@@ -131,7 +131,7 @@ def plot_choropleth(geo_data, column, path_to_choropleth):
     sns.set_context('paper')
 
 
-path_to_choropleth_plot_1 = Path('../visualizations/geographic_distribution_choropleth_1.png')
-path_to_choropleth_plot_2 = Path('../visualizations/geographic_distribution_choropleth_2.png')
+path_to_choropleth_plot_1 = Path('../../visualizations/geographic_distribution_choropleth_1.png')
+path_to_choropleth_plot_2 = Path('../../visualizations/geographic_distribution_choropleth_2.png')
 plot_choropleth(geo_data, 'cases', path_to_choropleth_plot_1)
 plot_choropleth(geo_data, 'cases per 100,000 people', path_to_choropleth_plot_2)

@@ -19,26 +19,27 @@ from bokeh.palettes import brewer
 from bokeh.layouts import column
 
 
-OUTPUT_FILE_PATH = '../visualizations/geographic_distribution_greece_2020_03_29.html'
+OUTPUT_FILE_PATH = '../../visualizations/geographic_distribution_greece_2020_03_29.html'
 
 PREFECTURE_BOUNDARIES_FILE_URL = ('http://geodata.gov.gr/en/dataset/6deb6a12-1a54-41b4-b53b-6b36068b8348/'
                                   'resource/3e571f7f-42a4-4b49-8db0-311695d72fa3/download/nomoiokxe.zip')
 
 PREFECTURE_BOUNDARIES_SHAPEFILE_PATH = './nomoi_okxe/nomoi_okxe.shp'
 
-GEOGRAPHIC_DISTRIBUTION_DATA_PATH = '../data/greece/NPHO/geographic_distribution_%s.csv'
+GEOGRAPHIC_DISTRIBUTION_DATA_PATH = '../../data/greece/NPHO/geographic_distribution_%s.csv'
 
-DATES = ['2020_03_20',
-        '2020_03_21',
-        '2020_03_22',
-        '2020_03_23',
-        '2020_03_24',
-        '2020_03_25',
-        '2020_03_26',
-        '2020_03_27',
-        '2020_03_28',
-        '2020_03_29'
-        ]
+DATES = [
+    '2020_03_20',
+    '2020_03_21',
+    '2020_03_22',
+    '2020_03_23',
+    '2020_03_24',
+    '2020_03_25',
+    '2020_03_26',
+    '2020_03_27',
+    '2020_03_28',
+    '2020_03_29'
+    ]
 
 GEOGRAPHIC_DISTRIBUTION_COLUMNS_MAP = {
     'Περιφερειακή ενότητα': 'prefecture',
