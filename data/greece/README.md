@@ -24,5 +24,10 @@ This folder contains data for Greece.
   Data source: [Wikipedia - 2020 coronavirus pandemic in Greece](https://el.wikipedia.org/wiki/Πανδημία_του_κορονοϊού_στην_Ελλάδα_το_2020)
   
   - [`cases.csv`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/wikipedia/cases.csv): Timeline of coronavirus cases in Greece
-
-
+  
+- [`isMOOD/`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/isMOOD) \
+  Data source: [Covid19 live analytics by isMOOD](https://covid19live.ismood.com/)
+  
+  - [`daily-info.json`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/isMOOD/daily-info.json): Daily Information on COVID-19 cases in Greece
+  - [`regions.json`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/isMOOD/regions.json): Regional Information on COVID-19 cases in Greece 
+  - [`total-info.json`](https://github.com/AlexDelitzas/covid19-data-greece/blob/master/data/greece/isMOOD/total-info.json): Total Information on COVID-19 cases in Greece 
