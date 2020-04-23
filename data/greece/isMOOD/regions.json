@@ -2,7 +2,7 @@
     {
         "region_cases": 72,
         "region_en_name": "East Macedonia and Thrace",
-        "region_gr_name": "\u0391\u03bd\u03b1\u03c4\u03bf\u03bb\u03b9\u03ba\u03ae \u039c\u03b1\u03ba\u03b5\u03b4\u03bf\u03bd\u03af\u03b1 & \u0398\u03c1\u03ac\u03ba\u03b7"
+        "region_gr_name": "\u0391\u03bd\u03b1\u03c4\u03bf\u03bb\u03b9\u03ba\u03ae \u039c\u03b1\u03ba\u03b5\u03b4\u03bf\u03bd\u03af\u03b1 \u03ba\u03b1\u03b9 \u0398\u03c1\u03ac\u03ba\u03b7"
     },
     {
         "region_cases": 173,
@@ -12,7 +12,7 @@
     {
         "region_cases": 14,
         "region_en_name": "Epirus",
-        "region_gr_name": "'\u0397\u03c0\u03b5\u03b9\u03c1\u03bf\u03c2"
+        "region_gr_name": "\u0389\u03c0\u03b5\u03b9\u03c1\u03bf\u03c2"
     },
     {
         "region_cases": 61,
@@ -22,7 +22,7 @@
     {
         "region_cases": 13,
         "region_en_name": "Ionian Islands",
-        "region_gr_name": "\u0395\u03c0\u03c4\u03ac\u03bd\u03b7\u03c3\u03b1"
+        "region_gr_name": "\u0399\u03cc\u03bd\u03b9\u03bf\u03b9 \u039d\u03ae\u03c3\u03bf\u03b9"
     },
     {
         "region_cases": 83,
@@ -32,7 +32,7 @@
     {
         "region_cases": 67,
         "region_en_name": "Central Greece",
-        "region_gr_name": "\u039a\u03b5\u03bd\u03c4\u03c1\u03b9\u03ba\u03ae \u0395\u03bb\u03bb\u03ac\u03b4\u03b1"
+        "region_gr_name": "\u03a3\u03c4\u03b5\u03c1\u03b5\u03ac \u0395\u03bb\u03bb\u03ac\u03b4\u03b1" 
     },
     {
         "region_cases": 1343,
