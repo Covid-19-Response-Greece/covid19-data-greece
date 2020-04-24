@@ -71,6 +71,12 @@ jobs:
           cd data/greece/iMEdD-Lab/
           echo Updating iMEdD-Lab source..          
           python download.py
+          
+      - name: Append isMOOD daily data to timeline csv
+        run: |
+          cd ${{ github.workspace }}/data/greece/isMOOD/
+          echo Appending isMOOD data to csv..
+          python append_json_to_csv.py
 
       - name: Commit files
         run: |
