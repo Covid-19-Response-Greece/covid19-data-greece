@@ -20,7 +20,7 @@ def append_json_to_csv():
         time_series_df = time_series_df.drop(today, axis =1)
     time_series_df = time_series_df.merge(new_data, left_on = 'Region', right_on = 'region_en_name', how = 'left')
     
-    return time_series_df.to_csv(CASES_BY_REGION_TIMELINE_CSV_PATH, index = False)
+    return time_series_df.to_csv(CASES_BY_REGION_TIME_SERIES_CSV_PATH, index = False)
 
 
 if __name__ == '__main__':
