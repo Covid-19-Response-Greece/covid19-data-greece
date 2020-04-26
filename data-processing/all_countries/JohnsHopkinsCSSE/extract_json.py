@@ -3,7 +3,7 @@
 import pandas as pd
 import json
 
-data_path = '../data/all_countries/JohnsHopkinsCSSE/'
+data_path = '../../../data/all_countries/JohnsHopkinsCSSE/'
 
 def clean_data():
     print('Cleaning the data ...')
@@ -71,4 +71,4 @@ if __name__ == '__main__':
     data['Date'] = pd.to_datetime(data['Date'])
     data = data.groupby(["Country/Region", "Date"])["Confirmed", "Deaths", "Recovered"].sum()
 
-    export_to_json(data, '../data/all_countries/JohnsHopkinsCSSE/cleaned-data/timeseries_per_country.json')
+    export_to_json(data, '../../../data/all_countries/JohnsHopkinsCSSE/cleaned-data/timeseries_per_country.json')
