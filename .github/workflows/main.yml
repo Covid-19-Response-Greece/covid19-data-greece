@@ -48,8 +48,9 @@ jobs:
           cd ${{ github.workspace }}/data/all_countries/JohnsHopkinsCSSE/
           echo Updating JohnsHopkinsCSSE source..
           python download.py
-          cd ${{ github.workspace }}/data-processing/
+          cd ${{ github.workspace }}/data-processing/all_countries/JohnsHopkinsCSSE/
           python extract_json.py
+          cd ${{ github.workspace }}/data-processing/greece/JohnsHopkinsCSSE/
           python extract_json_greece.py
           
       - name: Update isMOOD data
@@ -57,6 +58,8 @@ jobs:
           cd ${{ github.workspace }}/data/greece/isMOOD/
           echo Updating isMOOD source..
           python download.py
+          cd ${{ github.workspace }}/data-processing/greece/isMOOD/
+          python append_json_to_csv.py
 
       - name: Update Wikipedia data
         run: |
@@ -71,12 +74,6 @@ jobs:
           cd data/greece/iMEdD-Lab/
           echo Updating iMEdD-Lab source..          
           python download.py
-          
-      - name: Append isMOOD daily data to timeline csv
-        run: |
-          cd ${{ github.workspace }}/data/greece/isMOOD/
-          echo Appending isMOOD data to csv..
-          python append_json_to_csv.py
 
       - name: Commit files
         run: |

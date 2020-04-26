@@ -5,9 +5,9 @@ import pandas as pd
 from datetime import datetime
 
 
-REGIONS_JSON_PATH = './regions.json'
+REGIONS_JSON_PATH = '../../../data/greece/isMOOD/regions.json'
 
-CASES_BY_REGION_TIME_SERIES_CSV_PATH = './cases_by_region_timeline.csv'
+CASES_BY_REGION_TIME_SERIES_CSV_PATH = '../../../data/greece/isMOOD/cases_by_region_timeline.csv'
 
 
 def append_json_to_csv():
