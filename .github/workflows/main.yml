@@ -64,7 +64,13 @@ jobs:
           echo Updating Wikipedia source..
           python webcrawler.py
           echo Done.
-          
+      
+      - name: Update regions data
+        run: |
+          cd ${{ github.workspace }}/data/greece/Regions/
+          echo Updating regions source..
+          python download.py
+      
       - name: Update iMEdD-Lab data
         run: |
           cd ${{ github.workspace }}
