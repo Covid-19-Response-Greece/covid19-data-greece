@@ -71,6 +71,12 @@ jobs:
           echo Updating regions source..
           python download.py
       
+      - name: Update refugee camps data
+        run: |
+          cd ${{ github.workspace }}/data/greece/Refugee_camps/
+          echo Updating refugee camps source..
+          python download.py
+          
       - name: Update iMEdD-Lab data
         run: |
           cd ${{ github.workspace }}
