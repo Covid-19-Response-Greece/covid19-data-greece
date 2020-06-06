@@ -76,8 +76,8 @@ def extract_table(soup):
 
         if i == 98 :
             
-            output_rows.append(['2020-06-03', '15', '1', '1442', '9', '193.929', ''])
-            output_rows.append(['2020-06-04', '15', '1', '1442', '9', '193.929', ''])
+            output_rows.append(['2020-06-03', '15', '1', '1442', '9', '193929', ''])
+            output_rows.append(['2020-06-04', '15', '1', '1442', '9', '193929', ''])
             continue
         
         output_row = []
