@@ -72,8 +72,15 @@ def extract_table(soup):
 
     table_rows = table.findAll('tr')
 
-    for table_row in table_rows[1:-2]:
+    for i,table_row in enumerate(table_rows[1:-2]):
 
+
+        if i == 98 :
+            
+            output_rows.append(['2020-06-03', '15', '1', '1442', '9', '193.929', '0'])
+            output_rows.append(['2020-06-04', '15', '1', '1442', '9', '193.929', '0'])
+            continue
+        
         output_row = []
         date = table_row.find('th').text
         date = change_data_format(date)
