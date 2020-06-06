@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 import requests
 import csv
+import datetime
 
 URL = "https://el.wikipedia.org/wiki/%CE%A0%CE%B1%CE%BD%CE%B4%CE%B7%CE%BC%CE%AF%CE%B1_%CF%84%CE%BF%CF%85_%CE%BA%CE%BF%CF%81%CE%BF%CE%BD%CE%BF%CF%8A%CE%BF%CF%8D_%CF%83%CF%84%CE%B7%CE%BD_%CE%95%CE%BB%CE%BB%CE%AC%CE%B4%CE%B1_%CF%84%CE%BF_2020"
 
@@ -10,8 +11,6 @@ def filter_string(value):
     value = value.replace('\n', '')
     value = value.replace('.', '')
 
-    if value == '':
-        value = '0'
 
     value = value.replace('-', '')
 
@@ -77,20 +76,29 @@ def extract_table(soup):
 
         if i == 98 :
             
-            output_rows.append(['2020-06-03', '15', '1', '1442', '9', '193.929', '0'])
-            output_rows.append(['2020-06-04', '15', '1', '1442', '9', '193.929', '0'])
+            output_rows.append(['2020-06-03', '15', '1', '1442', '9', '193.929', ''])
+            output_rows.append(['2020-06-04', '15', '1', '1442', '9', '193.929', ''])
             continue
         
         output_row = []
         date = table_row.find('th').text
         date = change_data_format(date)
         output_row.append(date)
-
+        
         columns = table_row.findAll('td')
 
+        
         for column in columns:
+            
             output_row.append(filter_string(column.text))
 
+        if datetime.datetime.strptime(date, '%Y-%m-%d') < datetime.datetime(2020, 4, 3) :
+            output_row[4] = '0'
+            
+        if datetime.datetime.strptime(date, '%Y-%m-%d') < datetime.datetime(2020, 11, 3) :
+            output_row[2] = '0'
+            output_row[3] = '0'
+            
         output_rows.append(output_row)
 
     last_row = ['Total']
