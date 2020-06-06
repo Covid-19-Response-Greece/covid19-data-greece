@@ -5,7 +5,7 @@ import sys
 DOWNLOADS_DIR = './'
 
 out_format = ['csv']
-out_filename = ['refugees_camps']
+out_filename = ['refugee_camps']
 
 source_url = ['https://docs.google.com/spreadsheets/d/1UeNgv7bpobAcL_3va67M4D38DSW_5YIwr77UmkqnWU0/gviz/tq?tqx=out:']
 
