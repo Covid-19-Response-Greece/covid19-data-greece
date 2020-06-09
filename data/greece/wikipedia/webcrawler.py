@@ -80,6 +80,14 @@ def extract_table(soup):
             output_rows.append(['2020-06-04', '15', '1', '1442', '9', '193929', ''])
             continue
         
+        if i == 99 :
+            
+            output_rows.append(['2020-06-05', '97', '2', '1442', '10', '229519', ''])
+            output_rows.append(['2020-06-06', '97', '2', '1442', '10', '229519', ''])
+            output_rows.append(['2020-06-07', '97', '2', '1442', '10', '229519', ''])
+            output_rows.append(['2020-06-08', '97', '2', '1442', '10', '229519', ''])
+            continue
+        
         output_row = []
         date = table_row.find('th').text
         date = change_data_format(date)
@@ -92,10 +100,10 @@ def extract_table(soup):
             
             output_row.append(filter_string(column.text))
 
-        if datetime.datetime.strptime(date, '%Y-%m-%d') < datetime.datetime(2020, 4, 3) :
+        if datetime.datetime.strptime(date, '%Y-%m-%d') < datetime.datetime(2020, 3, 4) :
             output_row[4] = '0'
             
-        if datetime.datetime.strptime(date, '%Y-%m-%d') < datetime.datetime(2020, 11, 3) :
+        if datetime.datetime.strptime(date, '%Y-%m-%d') < datetime.datetime(2020, 3, 12) :
             output_row[2] = '0'
             output_row[3] = '0'
             
