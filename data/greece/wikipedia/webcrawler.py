@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 import csv
 import datetime
+import re
 
 URL = "https://el.wikipedia.org/wiki/%CE%A0%CE%B1%CE%BD%CE%B4%CE%B7%CE%BC%CE%AF%CE%B1_%CF%84%CE%BF%CF%85_%CE%BA%CE%BF%CF%81%CE%BF%CE%BD%CE%BF%CF%8A%CE%BF%CF%8D_%CF%83%CF%84%CE%B7%CE%BD_%CE%95%CE%BB%CE%BB%CE%AC%CE%B4%CE%B1_%CF%84%CE%BF_2020"
 
@@ -38,9 +39,12 @@ def convert_greek_month_name_to_number(greek_month_name):
     return month_number
 
 
-def change_data_format(date_from_source):
+def change_data_format(date_from_source, latest_year):
+    date_from_source = re.split("\[|\(", date_from_source, maxsplit=1)[0].rstrip()
+    year_exists_pattern = '\s[0-9]{4}$'
+    if not re.search(year_exists_pattern, date_from_source):
+        date_from_source += ' ' + latest_year
     (day, month_name, year) = date_from_source.split()[:3]
-    year = year.split("[",1)[0]
     
     month_number = convert_greek_month_name_to_number(month_name)
 
@@ -49,7 +53,7 @@ def change_data_format(date_from_source):
 
     new_date_format = year + "-" + month_number + "-" + day
 
-    return new_date_format
+    return new_date_format, year
 
 
 def extract_table(soup):
@@ -70,6 +74,8 @@ def extract_table(soup):
     output_rows.append(first_row)
 
     table_rows = table.findAll('tr')
+    
+    latest_year = '2020'
 
     for i,table_row in enumerate(table_rows[1:-2]):
 
@@ -90,7 +96,7 @@ def extract_table(soup):
         
         output_row = []
         date = table_row.find('th').text
-        date = change_data_format(date)
+        date, latest_year = change_data_format(date, latest_year)
         output_row.append(date)
         
         columns = table_row.findAll('td')
