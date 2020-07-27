@@ -102,7 +102,7 @@ def extract_table(soup):
         columns = table_row.findAll('td')
 
         
-        for column in columns:
+        for column in columns[:6]:
             
             output_row.append(filter_string(column.text))
 
