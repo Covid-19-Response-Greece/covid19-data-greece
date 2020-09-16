@@ -64,6 +64,13 @@ jobs:
           echo Updating Wikipedia source..
           python webcrawler.py
           echo Done.
+
+      - name: Update schools status data
+        run: |
+          cd ${{ github.workspace }}/data/greece/schools_status/
+          echo Updating schools status source..
+          python webcrawler.py
+          echo Done.
       
       - name: Update regions data
         run: |
