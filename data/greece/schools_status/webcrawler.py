@@ -10,7 +10,7 @@ URL = "https://www.sch.gr/anastoli/web/index.php"
 
 
 def extract_table(soup):
-    table = soup.find('table', { "class" : "kv-grid-table table table-bordered table-striped kv-table-wrap" })
+    table = soup.find('table', { "class" : "kv-grid-table table table-hover table-bordered table-striped table-condensed kv-table-wrap" })
 
     table_rows = table.findAll('tr')
 
