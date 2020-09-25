@@ -10,6 +10,7 @@ URL = "https://el.wikipedia.org/wiki/%CE%A0%CE%B1%CE%BD%CE%B4%CE%B7%CE%BC%CE%AF%
 
 def filter_string(value):
 
+    value = re.split("\[", value, maxsplit=1)[0].rstrip()
     value = re.sub("\D|\n", "", value)
 
     return value

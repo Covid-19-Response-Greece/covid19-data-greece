@@ -10,7 +10,7 @@ URL = "https://www.sch.gr/anastoli/web/index.php"
 
 
 def extract_table(soup):
-    table = soup.find('table', { "class" : "kv-grid-table table table-bordered table-striped kv-table-wrap" })
+    table = soup.find('table', { "class" : "kv-grid-table table table-hover table-bordered table-striped table-condensed kv-table-wrap" })
 
     table_rows = table.findAll('tr')
 
@@ -36,6 +36,8 @@ def extract_table(soup):
 
             if value == '':
                 value = '-'
+            if value == '-':
+                value = ''
             output_row.append(value)
         
             
@@ -52,6 +54,6 @@ if __name__ == '__main__':
 
     table_rows = extract_table(soup)
 
-    with open('schools_status.csv', 'w') as csvfile:
+    with open('schools_status.csv', 'w', encoding = 'utf-8') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(table_rows)

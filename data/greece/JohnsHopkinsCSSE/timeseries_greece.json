@@ -1427,6 +1427,54 @@
 			"confirmed": 13730,
 			"recovered": 1347,
 			"deaths": 313
+		},
+		{
+			"date": "2020-09-16",
+			"confirmed": 14041,
+			"recovered": 1347,
+			"deaths": 316
+		},
+		{
+			"date": "2020-09-17",
+			"confirmed": 14400,
+			"recovered": 1347,
+			"deaths": 325
+		},
+		{
+			"date": "2020-09-18",
+			"confirmed": 14738,
+			"recovered": 1347,
+			"deaths": 327
+		},
+		{
+			"date": "2020-09-19",
+			"confirmed": 14978,
+			"recovered": 1347,
+			"deaths": 331
+		},
+		{
+			"date": "2020-09-20",
+			"confirmed": 15142,
+			"recovered": 1347,
+			"deaths": 338
+		},
+		{
+			"date": "2020-09-21",
+			"confirmed": 15595,
+			"recovered": 1347,
+			"deaths": 344
+		},
+		{
+			"date": "2020-09-22",
+			"confirmed": 15928,
+			"recovered": 1347,
+			"deaths": 352
+		},
+		{
+			"date": "2020-09-23",
+			"confirmed": 16286,
+			"recovered": 1347,
+			"deaths": 357
 		}
 	]
 }
