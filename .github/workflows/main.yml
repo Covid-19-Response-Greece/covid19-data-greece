@@ -58,12 +58,12 @@ jobs:
           echo Updating isMOOD source..
           python download.py
 
-      - name: Update Wikipedia data
-        run: |
-          cd ${{ github.workspace }}/data/greece/wikipedia/
-          echo Updating Wikipedia source..
-          python webcrawler.py
-          echo Done.
+      # - name: Update Wikipedia data
+      #   run: |
+      #     cd ${{ github.workspace }}/data/greece/wikipedia/
+      #     echo Updating Wikipedia source..
+      #     python webcrawler.py
+      #     echo Done.
 
       - name: Update schools status data
         run: |
