@@ -19,7 +19,7 @@ This project is performed by volunteers of [COVID-19 Response Greece](https://ww
 
 * National Public Health Organization (NPHO) of Greece: https://eody.gov.gr/
 
-* Wikipedia: https://el.wikipedia.org/wiki/Πανδημία_του_κορονοϊού_στην_Ελλάδα_το_2020
+* Wikipedia: https://el.wikipedia.org/wiki/Χρονολόγιο_κρουσμάτων_της_πανδημίας_του_κορονοϊού_στην_Ελλάδα_το_2020
 
 * isMOOD covid19 Greece: https://covid19live.ismood.com/
 
