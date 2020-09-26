@@ -8,15 +8,15 @@ import json
 DOWNLOADS_DIR = './'
 
 
-headers = [[('Referer', 'https://covid19live.ismood.com/'), ('Authorization', 'Basic ZmFkaWw6aXNjb3Y0NTZA',)],
+headers = [#[('Referer', 'https://covid19live.ismood.com/'), ('Authorization', 'Basic ZmFkaWw6aXNjb3Y0NTZA',)],
            [('Referer', 'https://covid19live.ismood.com/'), ('Authorization', 'Basic ZmFkaWw6aXNjb3Y0NTZA',)],
            [('Referer', 'https://covid19live.ismood.com/'), ('Authorization', 'Basic ZmFkaWw6aXNjb3Y0NTZA',)]]
 
-params = ['?country_name=greece',
+params = [#'?country_name=greece',
           '?country_name=greece',
           '?country_name=greece']
 
-urls = ['https://covidapi.ismood.com/total-info/',
+urls = [#'https://covidapi.ismood.com/total-info/',
         'https://covidapi.ismood.com/daily-info/',
         'https://covidapi.ismood.com/regions/']
 
