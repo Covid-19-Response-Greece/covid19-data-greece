@@ -12,7 +12,6 @@ URL = "https://www.sch.gr/anastoli/web/index.php?r=site%2Findex&page="
 def extract_table(soup):
 
     summary = soup.find('div', {"class" : "summary"}).findAll('b')
-    print(summary)
 
     elements_range = summary[0]
     last_displayed_element = elements_range.text.split("-",1)[1]
@@ -76,7 +75,7 @@ if __name__ == '__main__':
         
 
         if page_index > 1:
-            result_table.pop(1)
+            result_table.pop(0)
 
         table_rows.extend(result_table)
 
