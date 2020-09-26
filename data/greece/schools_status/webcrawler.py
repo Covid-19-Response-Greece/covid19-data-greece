@@ -6,10 +6,23 @@ import csv
 import datetime
 import re
 
-URL = "https://www.sch.gr/anastoli/web/index.php"
+URL = "https://www.sch.gr/anastoli/web/index.php?r=site%2Findex&page="
 
 
 def extract_table(soup):
+
+    summary = soup.find('div', {"class" : "summary"}).findAll('b')
+    print(summary)
+
+    elements_range = summary[0]
+    last_displayed_element = elements_range.text.split("-",1)[1]
+    last_element = summary[1].text
+
+    is_last_page = False 
+
+    if last_displayed_element == last_element:
+        is_last_page = True
+
     table = soup.find('table', { "class" : "kv-grid-table table table-hover table-bordered table-striped table-condensed kv-table-wrap" })
 
     table_rows = table.findAll('tr')
@@ -46,13 +59,32 @@ def extract_table(soup):
     output_rows.pop(1)
     output_rows.pop(1)
 
-    return output_rows
+    return output_rows, is_last_page
 
 if __name__ == '__main__':
-    content = requests.get(URL)
-    soup = BeautifulSoup(content.text, 'html.parser')
 
-    table_rows = extract_table(soup)
+    page_index = 1 
+
+    table_rows = []
+
+    while True:
+
+        content = requests.get(URL + str(page_index))
+        soup = BeautifulSoup(content.text, 'html.parser')
+
+        result_table, is_last_page = extract_table(soup)
+        
+
+        if page_index > 1:
+            result_table.pop(1)
+
+        table_rows.extend(result_table)
+
+        if is_last_page:
+            break 
+
+        page_index += 1
+
 
     with open('schools_status.csv', 'w', encoding = 'utf-8') as csvfile:
         writer = csv.writer(csvfile)
