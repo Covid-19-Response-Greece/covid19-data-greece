@@ -1067,23 +1067,48 @@
     },
     {
       "date": "2020-09-26",
-      "rapid-tests": 0,
+      "rapid-tests": 8879,
       "tests": 1269055
     },
     {
       "date": "2020-09-27",
-      "rapid-tests": 0,
+      "rapid-tests": 9313,
       "tests": 1278587
     },
     {
       "date": "2020-09-28",
-      "rapid-tests": 0,
+      "rapid-tests": 9902,
       "tests": 1284694
     },
     {
       "date": "2020-09-29",
-      "rapid-tests": 0,
+      "rapid-tests": 10719,
       "tests": 1296795
+    },
+    {
+      "date": "2020-09-30",
+      "rapid-tests": 11504,
+      "tests": 1307549
+    },
+    {
+      "date": "2020-10-01",
+      "rapid-tests": 12288,
+      "tests": 1318336
+    },
+    {
+      "date": "2020-10-02",
+      "rapid-tests": 13100,
+      "tests": 1328042
+    },
+    {
+      "date": "2020-10-03",
+      "rapid-tests": 14071,
+      "tests": 1339664
+    },
+    {
+      "date": "2020-10-04",
+      "rapid-tests": 15019,
+      "tests": 1349123
     }
   ]
 }
