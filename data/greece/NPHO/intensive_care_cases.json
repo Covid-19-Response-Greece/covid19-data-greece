@@ -1219,6 +1219,10 @@
     {
       "date": "2020-12-26",
       "intensive_care": 473
+    },
+    {
+      "date": "2020-12-27",
+      "intensive_care": 469
     }
   ]
 }
