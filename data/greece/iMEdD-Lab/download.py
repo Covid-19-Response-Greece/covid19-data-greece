@@ -1,34 +1,94 @@
-# this script downloads the data from iMEdD Lab
+# This script downloads greece regions data from iMEdD Lab
 
 import os
 import urllib.request
 import sys
+import pandas as pd
+from datetime import datetime
+import json
 
-DOWNLOADS_DIR = './'
 
-urls = ['https://raw.githubusercontent.com/iMEdD-Lab/open-data/master/COVID-19/greece.csv',
-        'https://raw.githubusercontent.com/iMEdD-Lab/open-data/master/COVID-19/greeceTimeline.csv',
-        'https://raw.githubusercontent.com/iMEdD-Lab/open-data/master/COVID-19/greece_cases.csv',
-        'https://raw.githubusercontent.com/iMEdD-Lab/open-data/master/COVID-19/greece_deaths.csv']
+filenames = ["greece_cases_v2.csv", "greece_deaths_v2.csv", "greece_latest.csv"]
+out_filenames = ['regions_history_cases.csv', 'regions_history_deaths.csv', 'regions_daily.csv']
+DOWNLOADS_DIR = "./"
+
+source_urls = [
+    "https://raw.githubusercontent.com/iMEdD-Lab/open-data/master/COVID-19/greece_cases_v2.csv",
+    "https://raw.githubusercontent.com/iMEdD-Lab/open-data/master/COVID-19/greece_deaths_v2.csv",
+    "https://raw.githubusercontent.com/iMEdD-Lab/open-data/master/COVID-19/greece_latest.csv",
+]
+
+
+with open('regions_mapping.json', 'r') as f:
+    region_dict = json.load(f)
+
+with open('areas_mapping.json', 'r', encoding="utf-8") as f:
+    area_dict = json.load(f)
+
+with open('geo_departments_mapping.json', 'r', encoding="utf-8") as f:
+    geo_department_dict = json.load(f)
+
+with open('regions_coordinates_mapping.json', 'r', encoding="utf-8") as f:
+    region_coordinates_dict = json.load(f)
+
 
 def download():
-    print('Downloading data ...')
+
+    print("Downloading data ...")
 
     if not os.path.exists(DOWNLOADS_DIR):
         os.makedirs(DOWNLOADS_DIR)
 
-    for url in urls:
-        name = url.rsplit('/', 1)[-1]
+    for url in source_urls:
+
+        name = url.rsplit("/", 1)[-1]
         filename = os.path.join(DOWNLOADS_DIR, name)
 
         try:
             urllib.request.urlretrieve(url, filename)
         except Exception as inst:
             print(inst)
-            print('Encountered error')
+            print("Encountered error")
             sys.exit()
 
-    print('Done.')
+def process():
 
-if __name__ == '__main__':
+    print("Processing data ...")
+    last_updated_at = datetime.now().strftime('%Y-%m-%d')
+
+    for (file, out_file) in zip(filenames, out_filenames):
+
+        with open(file, encoding = 'utf-8') as f:
+        	file_pd = pd.read_csv(f, date_parser=lambda x: datetime.datetime.strptime(x, '%d/%m/%Y'), encoding="utf-8")
+
+        file_pd = file_pd.where(pd.notnull(file_pd), None)
+        columns_count = len(file_pd.columns)
+        region_data_df = pd.DataFrame(columns = ['area_gr', 'area_en', 'region_gr', 'region_en', 'geo_department_gr', 'geo_department_en', 'last_updated_at', 'longtitude', 'latitude' , 'population'] + list(file_pd.columns[5:]))
+
+        for i, row in file_pd.iterrows():
+
+            area_gr = row['county_normalized']
+            if area_gr in ["ΕΛΛΑΔΑ", "ΚΡΟΥΑΖΙΕΡΟΠΛΟΙΟ"]: continue
+            area_en = area_dict[area_gr]
+            region_gr = row['Περιφέρεια'].replace('Περιφέρεια ', '')
+            if region_gr == "Ελλάδα": continue
+            region_en = region_dict[region_gr]
+            geo_department_gr = row['Γεωγραφικό Διαμέρισμα']
+            geo_department_en = geo_department_dict[geo_department_gr]
+            longtitude = region_coordinates_dict[area_gr][0]
+            latitude = region_coordinates_dict[area_gr][1]
+            population = int(row['pop_11']) if row['pop_11'] != None else row['pop_11']
+            incident_record_timeline = list(row.iloc[5:columns_count])
+            region_data_entry = pd.Series([area_gr, area_en, region_gr, region_en, geo_department_gr, geo_department_en, last_updated_at, longtitude, latitude , population] + incident_record_timeline, index = region_data_df.columns)
+            region_data_df = region_data_df.append(region_data_entry, ignore_index=True)
+
+        if file == "greece_latest.csv":
+            region_data_df = region_data_df.drop(['Πρωτεύουσα', 'county_normalized'], axis=1)
+
+        region_data_df.to_csv(out_file, sep=',', encoding='utf-8', index=False)
+        os.remove(file)
+
+
+if __name__ == "__main__":
     download()
+    process()
