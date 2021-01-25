@@ -14,11 +14,11 @@ jobs:
   # This workflow contains a single job called "update_data_sources"
   update_data_sources:
     
-    # This job runs on Linux using Python 3.7 version
+    # This job runs on Linux using Python 3.8.5 version
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7]
+        python-version: [3.8.5]
 
     # The sequence of tasks that will be executed as part of the job
     steps:
