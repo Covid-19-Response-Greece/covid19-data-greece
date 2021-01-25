@@ -19,8 +19,28 @@ source_urls = [
 ]
 
 
-with open('regions_mapping.json', 'r') as f:
-    region_dict = json.load(f)
+region_dict = {
+    'Άγιον Όρος': 'Mount Athos',
+    'Ελλάδα': 'Greece',
+    'Ανατολικής Μακεδονίας και Θράκης': 'Eastern Macedonia and Thrace',
+    'Ανατολικής Μακεδονίας Θράκης': 'Eastern Macedonia and Thrace',
+    'Αττικής': 'Attica',
+    'Βορείου Αιγαίου': 'North Aegean',
+    'Δυτικής Ελλάδας': 'Western Greece',
+    'Δυτικής Μακεδονίας': 'Western Macedonia',
+    'Ηπείρου': 'Epirus',
+    'Θεσσαλίας': 'Thessaly',
+    'Ιονίων Νήσων': 'Ionian Islands',
+    'Κεντρικής Μακεδονίας': 'Central Macedonia',
+    'Κρήτης': 'Crete',
+    'Νοτίου Αιγαίου': 'South Aegean',
+    'Πελοποννήσου': 'Peloponnese',
+    'Στερεάς Ελλάδας και Εύβοιας': 'Central Greece'
+    }
+
+
+# with open('regions_mapping.json', 'r', encoding="utf-8") as f:
+#     region_dict = json.load(f)
 
 with open('areas_mapping.json', 'r', encoding="utf-8") as f:
     area_dict = json.load(f)
