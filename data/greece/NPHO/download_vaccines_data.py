@@ -13,6 +13,17 @@ data = pd.DataFrame(response.json())
 
 data = data.rename(columns = {'area': 'area_gr'})
 
+with open('../iMEdD-Lab/areas_mapping.json', 'r', encoding="utf-8") as f:
+    area_dict = json.load(f)
+
+nrows = len(data)
+area_en = []
+for i in range(0, nrows):
+    current_area_gr = data['area_gr'].iloc[i]
+    area_en.append(area_dict[current_area_gr])
+
+data.insert(1, "area_en", area_en, True)
+
 data['referencedate'] = pd.to_datetime(data['referencedate'])
 
 data.sort_values(by='referencedate')
