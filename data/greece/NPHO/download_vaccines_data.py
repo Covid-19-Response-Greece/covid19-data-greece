@@ -20,7 +20,7 @@ data.sort_values(by='referencedate')
 data['referencedate'] = data['referencedate'].dt.strftime('%Y-%m-%d')
 
 with open('vaccinations_data_history.json', 'w', encoding='utf-8') as file: 
-    data.to_json(file, orient ='records', indent = 3, force_ascii = False)
+    data.drop(columns = ['areaid']).to_json(file, orient ='records', indent = 3, force_ascii = False)
 
 
 area_ids = data['areaid'].unique()
@@ -36,7 +36,7 @@ cum_per_area_data = pd.DataFrame(last_records)
 cum_per_area_data = cum_per_area_data.drop(columns = ['daydiff', 'daytotal'])
 
 with open('cumulative_per_area_vaccinations.json', 'w', encoding='utf-8') as file: 
-    cum_per_area_data.to_json(file, orient ='records', indent = 3, force_ascii = False)
+    cum_per_area_data.drop(columns = ['areaid']).to_json(file, orient ='records', indent = 3, force_ascii = False)
 
 cum_data_dict = {
     'totaldistinctpersons': int(cum_per_area_data['totaldistinctpersons'].sum()),
