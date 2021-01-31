@@ -1339,6 +1339,26 @@
     {
       "date": "2021-01-25",
       "intensive_care": 286
+    },
+    {
+      "date": "2021-01-26",
+      "intensive_care": 283
+    },
+    {
+      "date": "2021-01-27",
+      "intensive_care": 274
+    },
+    {
+      "date": "2021-01-28",
+      "intensive_care": 268
+    },
+    {
+      "date": "2021-01-29",
+      "intensive_care": 260
+    },
+    {
+      "date": "2021-01-30",
+      "intensive_care": 257
     }
     
   ]

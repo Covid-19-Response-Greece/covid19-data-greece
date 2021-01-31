@@ -2219,6 +2219,36 @@
 			"confirmed": 152412,
 			"recovered": 93764,
 			"deaths": 5671
+		},
+		{
+			"date": "2021-01-26",
+			"confirmed": 153226,
+			"recovered": 93764,
+			"deaths": 5692
+		},
+		{
+			"date": "2021-01-27",
+			"confirmed": 154083,
+			"recovered": 93764,
+			"deaths": 5724
+		},
+		{
+			"date": "2021-01-28",
+			"confirmed": 154796,
+			"recovered": 93764,
+			"deaths": 5742
+		},
+		{
+			"date": "2021-01-29",
+			"confirmed": 155678,
+			"recovered": 93764,
+			"deaths": 5764
+		},
+		{
+			"date": "2021-01-30",
+			"confirmed": 156473,
+			"recovered": 93764,
+			"deaths": 5779
 		}
 	]
 }
