@@ -44,7 +44,7 @@ for area_id in area_ids:
     last_records.append(data.iloc[key])
 
 cum_per_area_data = pd.DataFrame(last_records)
-cum_per_area_data = cum_per_area_data.drop(columns = ['daydiff', 'daytotal'])
+cum_per_area_data = cum_per_area_data.drop(columns = ['daydiff', 'daytotal', 'dailydose1', 'dailydose2'])
 
 with open('cumulative_per_area_vaccinations.json', 'w', encoding='utf-8') as file: 
     cum_per_area_data.drop(columns = ['areaid']).to_json(file, orient ='records', indent = 3, force_ascii = False)
