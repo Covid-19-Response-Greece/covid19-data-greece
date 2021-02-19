@@ -86,7 +86,7 @@ jobs:
           git add -A
           git commit -m "Automated Data Update using Workflows"
 
-   - name: Push changes to data-restructuring branch                               
+      - name: Push changes to data-restructuring branch                               
         uses: ad-m/github-push-action@master
         with:
           branch: data-restructuring                                 
