@@ -1,5 +1,5 @@
-# Workflow to Automatically Update Data Sources in the Repository
-name: Automated Data Updates
+# Workflow to Automatically Update Data Sources in the Repository / data-restructuring branch
+name: Automated Data Updates (data-restructuring branch)
 
 # Controls when the action will run.
 on:
