@@ -5,7 +5,7 @@ name: Automated Data Updates (data-restructuring branch)
 on:
   # Time-based workflow trigger (at 00:00, 08:00, 16:00)
   schedule:
-    - cron: "0 0,8,16 * * *"
+    - cron: "0 0,8,10,16 * * *"
 
 # The job executed by the workflow
 jobs:
