@@ -33,7 +33,7 @@
             {
                 "regional_unit": "West_Attica",
                 "risk_level": "C"
-            },
+            }
         ],
         "Central_Greece": [
             {
@@ -55,7 +55,7 @@
             {
                 "regional_unit": "Phthiotis",
                 "risk_level": "A"
-            },
+            }
         ],
         "Central_Macedonia": [
             {
