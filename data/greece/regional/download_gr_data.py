@@ -97,6 +97,53 @@ def process():
         os.remove(file)
 
 
+def extract_json():
+    with open("regions_history_cases.csv", encoding="utf-8") as f:
+        data_greece_regions_history = pd.read_csv(f)
+
+    data_greece_regions_history = data_greece_regions_history.where(
+        pd.notnull(data_greece_regions_history), None
+    )
+
+    date_list = list(data_greece_regions_history.columns[11:])
+    tot_json = []
+    # start_date = datetime.datetime.strptime('2/26/20', '%m/%d/%y')
+
+    for idx, date in enumerate(date_list):
+
+        transformed_date = datetime.strptime(date, "%m/%d/%y")
+        # past_days_window = min(7, (transformed_date - start_date).days)
+        # mean_cases_window = date_list[idx - past_days_window : idx +1]
+        transformed_date = transformed_date.strftime("%Y-%m-%d")
+        inner_json = []
+
+        for i, row in data_greece_regions_history.iterrows():
+
+            region_info = json.loads(
+                row.iloc[0:9].to_json(orient="index", force_ascii=False)
+            )
+            region_cases = row.loc[date]
+            region_info["cases"] = int(region_cases) if region_cases != None else None
+            # diff_past_seven_days = np.diff(row[mean_cases_window]) if None not in list(row[mean_cases_window]) else []
+            # mean_cases_past_seven_days = None
+            # day_cases = None
+            # if diff_past_seven_days != []:
+            #     day_cases = diff_past_seven_days[-1]
+            #     if np.sum(diff_past_seven_days) != 0:
+            #         mean_cases_past_seven_days = np.mean(diff_past_seven_days)
+            # region_info['mean_cases_past_seven_days'] = mean_cases_past_seven_days
+            # region_info['cases_per_100000_people'] = round(day_cases / row['population']* 100000.0, 2) if (row['population'] != None and day_cases != None) else None
+            inner_json.append(region_info)
+
+        outer_json = {}
+        outer_json["date"] = transformed_date
+        outer_json["regions"] = inner_json
+        tot_json.append(outer_json)
+
+    with open("regions_history_cases.json", "w") as f2:
+        json.dump(tot_json, f2, ensure_ascii=False, indent=2)
+
 if __name__ == "__main__":
     download()
     process()
+    extract_json()
