@@ -5,7 +5,7 @@ name: Automated Data Updates
 on:
   # Time-based workflow trigger (at 00:00, 08:00, 16:00)
   schedule:
-    - cron: "0 0,8,16 * * *"
+    - cron: "0 0,8,10,16 * * *"
 
 # The job executed by the workflow
 jobs:
@@ -39,18 +39,14 @@ jobs:
           git config --local user.email "action@agithub.com"
           git config --local user.name "GitHub Action"
 
-      - name: Update all_countries general data
+      - name: Update general data
         run: |
           cd ${{ github.workspace }}/data/all_countries/general/
           echo Updating all_countries general source..
           python download.py
           python extract_json.py
 
-      - name: Update greece general data
-        run: |
           cd ${{ github.workspace }}/data/greece/general/
-          echo Updating greece general source..
-          python download.py
           python extract_json_greece.py
 
       - name: Update regional data
