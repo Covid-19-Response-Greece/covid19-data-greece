@@ -106,4 +106,4 @@ if __name__ == "__main__":
         "Confirmed", "Deaths", "Recovered"
     ].sum()
 
-    export_to_json(data, "./timeseries_per_country.json")
+    export_to_json(data, "./cleaned_data/timeseries_per_country.json")

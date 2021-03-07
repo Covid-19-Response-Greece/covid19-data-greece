@@ -3,7 +3,7 @@
 import pandas as pd
 import json
 
-data_path = "./"
+data_path = "../../all_countries/general/"
 
 
 def clean_data():
