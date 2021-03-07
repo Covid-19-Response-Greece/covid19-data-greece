@@ -3,7 +3,7 @@
 import pandas as pd
 import json
 
-data_path = "../data/all_countries/JohnsHopkinsCSSE/"
+data_path = "./"
 
 
 def clean_data():
@@ -106,4 +106,4 @@ if __name__ == "__main__":
         "Confirmed", "Deaths", "Recovered"
     ].sum()
 
-    export_to_json(data, "../data/all_countries/general/timeseries_per_country.json")
+    export_to_json(data, "./timeseries_per_country.json")
