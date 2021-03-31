@@ -1,5 +1,18 @@
 [
    {
+      "UnitName":"1ο ΕΙΔΙΚΟ ΝΗΠΙΑΓΩΓΕΙΟ ΚΑΒΑΛΑΣ",
+      "SchoolKind":"Νηπιαγωγεία",
+      "Municipality":"ΚΑΒΑΛΑΣ",
+      "MunicipalUnit":"ΚΑΒΑΛΑΣ",
+      "Area":"ΚΑΒΑΛΑΣ",
+      "Address":"ΝΕΕΣ ΕΡΓΑΤΙΚΕΣ ΚΑΤΟΙΚΙΕΣ",
+      "Longitude":24.38793,
+      "Latitude":40.932747,
+      "DateFrom":"31-03-2021",
+      "DateTo":"12-04-2021",
+      "Remarks":""
+   },
+   {
       "UnitName":"Ε.Ε.Ε.ΕΚ. ΣΕΡΡΩΝ",
       "SchoolKind":"Ειδικής Επαγγελματικής Εκπαίδευσης και Κατάρτισης",
       "Municipality":"ΣΕΡΡΩΝ",
@@ -177,6 +190,19 @@
       "Address":"ΚΟΥΡΤΑΚΙΟΥ 4",
       "Longitude":22.736173,
       "Latitude":37.634985,
+      "DateFrom":"22-03-2021",
+      "DateTo":"04-04-2021",
+      "Remarks":""
+   },
+   {
+      "UnitName":"ΗΜΕΡΗΣΙΟ ΓΕΝΙΚΟ ΛΥΚΕΙΟ ΔΙΔΥΜΟΤΕΙΧΟΥ ΕΒΡΟΥ",
+      "SchoolKind":"Λύκεια",
+      "Municipality":"ΔΙΔΥΜΟΤΕΙΧΟΥ",
+      "MunicipalUnit":"ΔΙΔΥΜΟΤΕΙΧΟΥ",
+      "Area":"ΔΙΔΥΜΟΤΕΙΧΟΥ ΕΒΡΟΥ",
+      "Address":"ΠΟΛΥΤΕΧΝΕΙΟΥ 3",
+      "Longitude":26.497282,
+      "Latitude":41.348735,
       "DateFrom":"22-03-2021",
       "DateTo":"04-04-2021",
       "Remarks":""
