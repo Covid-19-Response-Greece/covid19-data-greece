@@ -336,5 +336,18 @@
       "DateFrom":"01-04-2021",
       "DateTo":"14-04-2021",
       "Remarks":""
+   },
+   {
+      "UnitName":"ΕΝΙΑΙΟ ΕΙΔΙΚΟ ΕΠΑΓΓΕΛΜΑΤΙΚΟ ΓΥΜΝΑΣΙΟ - ΛΥΚΕΙΟ Ν. ΛΕΣΒΟΥ",
+      "SchoolKind":"Γυμνάσια",
+      "Municipality":"ΜΥΤΙΛΗΝΗΣ",
+      "MunicipalUnit":"ΜΥΤΙΛΗΝΗΣ",
+      "Area":"Μυτιλήνη",
+      "Address":"Γ. ΜΟΥΡΑ 10",
+      "Longitude":26.561064,
+      "Latitude":39.087776,
+      "DateFrom":"01-04-2021",
+      "DateTo":"14-04-2021",
+      "Remarks":""
    }
 ]
