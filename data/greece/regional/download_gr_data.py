@@ -140,7 +140,7 @@ def extract_json():
         outer_json["regions"] = inner_json
         tot_json.append(outer_json)
 
-    with open("regions_history_cases.json", "w") as f2:
+    with open("regions_history_cases.json", "w", encoding="utf-8") as f2:
         json.dump(tot_json, f2, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
