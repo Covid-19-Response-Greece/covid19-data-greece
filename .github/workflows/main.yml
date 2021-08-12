@@ -49,12 +49,12 @@ jobs:
           cd ${{ github.workspace }}/data/greece/general/
           python extract_json_greece.py
 
-      # - name: Update regional data
-      #   run: |
-      #     cd ${{ github.workspace }}/data/greece/regional/
-      #     echo Updating regional source..
-      #     python download_gr_data.py
-      #     python download_wm_data.py
+      - name: Update regional data
+        run: |
+          cd ${{ github.workspace }}/data/greece/regional/
+          echo Updating regional source..
+          python download_gr_data.py
+          python download_wm_data.py
 
       - name: Update refugee camps data
         run: |

@@ -6,7 +6,7 @@ import sys
 import pandas as pd
 from datetime import datetime
 import json
-
+import numpy as np
 
 filenames = ["greece_cases_v2.csv", "greece_deaths_v2.csv", "greece_latest.csv"]
 out_filenames = ['regions_history_cases.csv', 'regions_history_deaths.csv', 'regions_daily.csv']
@@ -104,6 +104,8 @@ def extract_json():
     data_greece_regions_history = data_greece_regions_history.where(
         pd.notnull(data_greece_regions_history), None
     )
+
+    data_greece_regions_history = data_greece_regions_history.replace({np.nan: None})
 
     date_list = list(data_greece_regions_history.columns[11:])
     tot_json = []
