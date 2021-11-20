@@ -24,9 +24,9 @@ for i in range(0, nrows):
 
 data.insert(1, "area_en", area_en, True)
 
-data["referencedate"] = pd.to_datetime(data["referencedate"])
+data = data.sort_values(by="referencedate")
 
-data.sort_values(by="referencedate")
+data["referencedate"] = pd.to_datetime(data["referencedate"])
 
 data["referencedate"] = data["referencedate"].dt.strftime("%Y-%m-%d")
 
@@ -43,7 +43,7 @@ last_records = []
 
 for area_id in area_ids:
     key = idx[data.areaid == area_id].tolist()[-1]
-    last_records.append(data.iloc[key])
+    last_records.append(data[data.index == key].iloc[0])
 
 cum_per_area_data = pd.DataFrame(last_records)
 cum_per_area_data = cum_per_area_data.drop(
