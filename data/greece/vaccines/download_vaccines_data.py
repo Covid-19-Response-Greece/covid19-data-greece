@@ -47,7 +47,7 @@ for area_id in area_ids:
 
 cum_per_area_data = pd.DataFrame(last_records)
 cum_per_area_data = cum_per_area_data.drop(
-    columns=["daydiff", "daytotal", "dailydose1", "dailydose2"]
+    columns=["daydiff", "daytotal", "dailydose1", "dailydose2", "dailydose3"]
 )
 
 with open("cumulative_per_area_vaccinations.json", "w", encoding="utf-8") as file:
@@ -58,6 +58,7 @@ with open("cumulative_per_area_vaccinations.json", "w", encoding="utf-8") as fil
 cum_data_dict = {
     "totaldistinctpersons": int(cum_per_area_data["totaldistinctpersons"].sum()),
     "totalvaccinations": int(cum_per_area_data["totalvaccinations"].sum()),
+    "totaldose3": int(cum_per_area_data["totaldose3"].sum()),
     "updated": cum_per_area_data["referencedate"].max(),
 }
 
